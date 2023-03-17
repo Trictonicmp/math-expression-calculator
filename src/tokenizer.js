@@ -9,68 +9,65 @@ export class Token {
   }
 }
 
-export class Tokenizer {
-  constructor(string) {
-    this.operators = "+-*/";
-    this.numberBuffer = "";
-  }
+const validOperators = "+-*/";
 
-  tokenize(string) {
-    const noSpacedInput = string.replace(/\s+/g, "");
-    const chars = noSpacedInput.split("");
-    const tokens = this.generateTokens(chars);
-    return tokens;
-  }
+export const tokenize = (string) => {
+  const noSpacedInput = string.replace(/\s+/g, "");
+  const chars = noSpacedInput.split("");
+  const tokens = generateTokens(chars);
+  return tokens;
+};
 
-  generateTokens(charsList) {
-    const tokens = [];
-    charsList.forEach((char) => {
-      if (this.isDigit(char)) {
-        this.numberBuffer += char;
+const generateTokens = (charsList) => {
+  const tokens = [];
+  let numberBuffer = "";
+
+  charsList.forEach((char) => {
+    if (isDigit(char)) {
+      numberBuffer += char;
+    }
+    if (isOperator(char)) {
+      if (!numberBufferEmpty(numberBuffer)) {
+        tokens.push(new Token(numberBuffer, "Digit"));
+        numberBuffer = "";
       }
-      if (this.isOperator(char)) {
-        if (!this.numberBufferEmpty()) {
-          tokens.push(new Token(this.numberBuffer, "Digit"));
-          this.cleanNumberBuffer();
-        }
-        tokens.push(new Token(char, "Operator"));
+      tokens.push(new Token(char, "Operator"));
+    }
+    if (isLeftParenthesis(char)) {
+      if (!numberBufferEmpty(numberBuffer)) {
+        tokens.push(new Token(numberBuffer, "Digit"));
+        numberBuffer = "";
       }
-      if (this.isLeftParenthesis(char)) {
-        if (!this.numberBufferEmpty()) {
-          tokens.push(new Token(this.numberBuffer, "Digit"));
-          this.cleanNumberBuffer();
-        }
-        tokens.push(new Token(char, "LeftParenthesis"));
+      tokens.push(new Token(char, "LeftParenthesis"));
+    }
+    if (isRightParenthesis(char)) {
+      if (!numberBufferEmpty(numberBuffer)) {
+        tokens.push(new Token(numberBuffer, "Digit"));
+        numberBuffer = "";
       }
-      if (this.isRightParenthesis(char)) {
-        if (!this.numberBufferEmpty()) {
-          tokens.push(new Token(this.numberBuffer, "Digit"));
-          this.cleanNumberBuffer();
-        }
-        tokens.push(new Token(char, "RightParenthesis"));
-      }
-    });
+      tokens.push(new Token(char, "RightParenthesis"));
+    }
+  });
 
-    return tokens;
-  }
+  return tokens;
+};
 
-  numberBufferEmpty() {
-    return this.numberBuffer === "";
-  }
-  cleanNumberBuffer() {
-    this.numberBuffer = "";
-  }
+const numberBufferEmpty = (numberBuffer) => {
+  return numberBuffer === "";
+};
 
-  isDigit(char) {
-    return /\d/.test(char) || char === ".";
-  }
-  isOperator(char) {
-    return char === "" ? false : this.operators.includes(char);
-  }
-  isLeftParenthesis(char) {
-    return char === "(";
-  }
-  isRightParenthesis(char) {
-    return char === ")";
-  }
-}
+const isDigit = (char) => {
+  return /\d/.test(char) || char === ".";
+};
+
+const isOperator = (char) => {
+  return char === "" ? false : validOperators.includes(char);
+};
+
+const isLeftParenthesis = (char) => {
+  return char === "(";
+};
+
+const isRightParenthesis = (char) => {
+  return char === ")";
+};

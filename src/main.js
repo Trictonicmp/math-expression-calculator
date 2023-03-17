@@ -1,4 +1,4 @@
-import { Tokenizer } from "./tokenizer.js";
+import { tokenize } from "./tokenizer.js";
 
 // simple math expresion calculator
 // - tokenize expression
@@ -6,5 +6,4 @@ import { Tokenizer } from "./tokenizer.js";
 // - expression tree
 // - expression evaluation with shunting yard algorithm
 
-const tokenizer = new Tokenizer();
-console.log(tokenizer.tokenize("2   + 5  /   (  3 * 14 . 16 ) "));
+console.log(tokenize("2   + 5  /   (  3 * 14 . 16 ) "));
