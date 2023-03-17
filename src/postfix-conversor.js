@@ -3,7 +3,7 @@ export const infixToPostfix = (tokensList) => {
   const operatorsStack = [];
 
   tokensList.forEach((token) => {
-    if (token.type === "Digit") {
+    if (token.type === "Number") {
       postfix.push(token);
     }
     if (token.type === "LeftParenthesis") {
@@ -20,6 +20,11 @@ export const infixToPostfix = (tokensList) => {
     if (token.type === "Operator") {
       let done = false;
       while (!done) {
+        if (isEmpty(operatorsStack)) {
+          operatorsStack.push(token);
+          done = true;
+          break;
+        }
         if (operatorsStack.at(-1).type === "LeftParenthesis") {
           operatorsStack.push(token);
           done = true;

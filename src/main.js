@@ -1,4 +1,5 @@
 import { tokenize } from "./tokenizer.js";
+import { infixToPostfix } from "./postfix-conversor.js";
 
 // simple math expresion calculator
 // - tokenize expression
@@ -6,4 +7,6 @@ import { tokenize } from "./tokenizer.js";
 // - expression tree
 // - expression evaluation with shunting yard algorithm
 
-console.log(tokenize("2   + 5  /   (  3 * 14 . 16 ) "));
+const tokens = tokenize("2   + 5  /   (  3 * 14 . 16 ) ");
+console.log(tokens);
+console.log(infixToPostfix(tokens));
