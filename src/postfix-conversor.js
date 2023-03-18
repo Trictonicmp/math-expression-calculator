@@ -6,42 +6,38 @@ export const infixToPostfix = (tokensList) => {
   const postfix = [];
   const operatorsStack = [];
 
-  tokensList.forEach((token) => {
-    if (token.type === "Number") {
-      postfix.push(token);
-    }
-    if (token.type === "LeftParenthesis") {
-      operatorsStack.push(token);
-    }
-    if (token.type === "RightParenthesis") {
-      let stackTopMost = operatorsStack.pop();
-      while (stackTopMost.type !== "LeftParenthesis") {
-        postfix.push(stackTopMost);
-        stackTopMost = operatorsStack.pop();
-      }
-    }
-
-    if (token.type === "Operator") {
-      let done = false;
-      while (!done) {
-        if (isEmpty(operatorsStack)) {
-          operatorsStack.push(token);
-          done = true;
-          break;
-        }
-        if (operatorsStack.at(-1).type === "LeftParenthesis") {
-          operatorsStack.push(token);
-          done = true;
-          break;
-        }
-
+  tokensList.forEach((currentToken) => {
+    console.log(currentToken);
+    if (currentToken.type !== "Number") {
+      if (currentToken.type === "RightParenthesis") {
         let stackTopMost = operatorsStack.pop();
-        if (operatorPecedenceOf(token) >= operatorPecedenceOf(stackTopMost)) {
+        while (stackTopMost.type !== "LeftParenthesis") {
           postfix.push(stackTopMost);
-        } else {
-          operatorsStack.push(token);
+          stackTopMost = operatorsStack.pop();
         }
+      } else if (
+        currentToken.type === "LeftParenthesis" ||
+        isEmpty(operatorsStack)
+      ) {
+        operatorsStack.push(currentToken);
+      } else if (
+        operatorPecedenceOf(currentToken) >
+        operatorPecedenceOf(operatorsStack.flat(-1))
+      ) {
+        operatorsStack.push(currentToken);
+      } else {
+        while (
+          operatorPecedenceOf(currentToken) <=
+            operatorPecedenceOf(operatorsStack.flat(-1)) &&
+          !isEmpty(operatorsStack)
+        ) {
+          const stackTopMost = operatorsStack.pop();
+          postfix.push(stackTopMost);
+        }
+        operatorsStack.push(currentToken);
       }
+    } else {
+      postfix.push(currentToken);
     }
   });
 
@@ -59,12 +55,12 @@ const isEmpty = (stack) => {
 
 const operatorPecedenceOf = (token) => {
   const precedences = {
-    "(": 3,
-    ")": 3,
-    "*": 2,
-    "/": 2,
-    "+": 1,
-    "-": 1,
+    "*": 4,
+    "/": 3,
+    "+": 2,
+    "-": 2,
+    "(": 1,
+    ")": 1,
   };
 
   return precedences[token.value];

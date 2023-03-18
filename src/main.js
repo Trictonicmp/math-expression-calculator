@@ -9,6 +9,7 @@ import { evaluatePostfix } from "./psotfix-evaluator.js";
 // - expression evaluation with shunting yard algorithm
 
 const tokens = tokenize("2   + 5  /   (  3 * 14 . 16 ) ");
+console.log(tokens);
 const postfixTokens = infixToPostfix(tokens);
 console.log(postfixTokens);
 console.log(evaluatePostfix(postfixTokens));
