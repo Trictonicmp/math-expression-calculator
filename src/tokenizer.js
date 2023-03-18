@@ -28,21 +28,21 @@ const generateTokens = (charsList) => {
     }
     if (isOperator(char)) {
       if (!numberBufferEmpty(numberBuffer)) {
-        tokens.push(new Token(numberBuffer, "Digit"));
+        tokens.push(new Token(numberBuffer, "Number"));
         numberBuffer = "";
       }
       tokens.push(new Token(char, "Operator"));
     }
     if (isLeftParenthesis(char)) {
       if (!numberBufferEmpty(numberBuffer)) {
-        tokens.push(new Token(numberBuffer, "Digit"));
+        tokens.push(new Token(numberBuffer, "Number"));
         numberBuffer = "";
       }
       tokens.push(new Token(char, "LeftParenthesis"));
     }
     if (isRightParenthesis(char)) {
       if (!numberBufferEmpty(numberBuffer)) {
-        tokens.push(new Token(numberBuffer, "Digit"));
+        tokens.push(new Token(numberBuffer, "Number"));
         numberBuffer = "";
       }
       tokens.push(new Token(char, "RightParenthesis"));
