@@ -9,8 +9,8 @@ export const evaluatePostfix = (postfixTokens) => {
     if (token.type === "Number") {
       resultStack.push(token);
     } else {
-      const operandA = resultStack.pop();
       const operandB = resultStack.pop();
+      const operandA = resultStack.pop();
       const result = calcualte(operandA.value, operandB.value, token.value);
       resultStack.push(new Token(result, "Number"));
     }
@@ -20,6 +20,8 @@ export const evaluatePostfix = (postfixTokens) => {
 };
 
 const calcualte = (a, b, operator) => {
+  a = parseFloat(a);
+  b = parseFloat(b);
   const operation = {
     "+": a + b,
     "-": a - b,
