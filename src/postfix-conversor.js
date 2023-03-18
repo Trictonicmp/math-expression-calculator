@@ -1,8 +1,7 @@
-const printtokens = (tokens) => {
-  let toPrint = "";
-  tokens.forEach((token) => (toPrint += token.value));
-  console.log(toPrint);
-};
+// infix to postfix
+// takes a list of infix tokens
+// returns a list of tokens in postfix notation
+// precedence: 3-[()] 2-[/*] 1-[-+]
 export const infixToPostfix = (tokensList) => {
   const postfix = [];
   const operatorsStack = [];
@@ -44,15 +43,12 @@ export const infixToPostfix = (tokensList) => {
         }
       }
     }
-    printtokens(postfix);
   });
 
   while (!isEmpty(operatorsStack)) {
-    printtokens(postfix);
     let stackTopMost = operatorsStack.pop();
     postfix.push(stackTopMost);
   }
-  printtokens(postfix);
 
   return postfix;
 };
