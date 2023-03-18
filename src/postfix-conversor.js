@@ -1,3 +1,8 @@
+const printtokens = (tokens) => {
+  let toPrint = "";
+  tokens.forEach((token) => (toPrint += token.value));
+  console.log(toPrint);
+};
 export const infixToPostfix = (tokensList) => {
   const postfix = [];
   const operatorsStack = [];
@@ -36,16 +41,18 @@ export const infixToPostfix = (tokensList) => {
           postfix.push(stackTopMost);
         } else {
           operatorsStack.push(token);
-          done = true;
         }
       }
     }
+    printtokens(postfix);
   });
 
   while (!isEmpty(operatorsStack)) {
+    printtokens(postfix);
     let stackTopMost = operatorsStack.pop();
     postfix.push(stackTopMost);
   }
+  printtokens(postfix);
 
   return postfix;
 };
