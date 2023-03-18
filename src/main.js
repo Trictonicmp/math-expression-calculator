@@ -1,6 +1,6 @@
 import { tokenize } from "./tokenizer.js";
 import { infixToPostfix } from "./postfix-conversor.js";
-import { postfixParser } from "./psotfix-parser.js";
+import { evaluatePostfix } from "./psotfix-evaluator.js";
 
 // simple math expresion calculator
 // - tokenize expression
@@ -10,4 +10,5 @@ import { postfixParser } from "./psotfix-parser.js";
 
 const tokens = tokenize("2   + 5  /   (  3 * 14 . 16 ) ");
 const postfixTokens = infixToPostfix(tokens);
-console.log(postfixParser(postfixTokens));
+console.log(postfixTokens);
+console.log(evaluatePostfix(postfixTokens));
